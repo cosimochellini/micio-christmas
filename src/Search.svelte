@@ -1,90 +1,90 @@
 <script>
-	import pokemon from "pokemontcgsdk";
-  import { onMount } from "svelte";
+  import pokemon from "pokemontcgsdk";
 
-	import CardList from "./Cards.svelte";
-	import Card from "./lib/components/CardProxy.svelte";
+  import CardList from "./Cards.svelte";
+  import Card from "./lib/components/CardProxy.svelte";
 
-	export let query = "";
+  export let query = "";
 
-	let loadingQuery = true;
-	let queryTimer;
-	let queryResult = [];
-	let isError = false;
+  let loadingQuery = true;
+  let queryTimer;
+  let queryResult = [];
+  let isError = false;
 
-	pokemon.configure({ apiKey: import.meta.env.VITE_API_KEY });
-  
-	const loadQuery = async() => {
+  pokemon.configure({ apiKey: import.meta.env.VITE_API_KEY });
 
-    if ( !usableQuery ) {
+  const loadQuery = async () => {
+    if (!usableQuery) {
       return;
     }
 
-		loadingQuery = true;
-		clearTimeout( queryTimer );
-		queryTimer = setTimeout(() => {
+    loadingQuery = true;
+    clearTimeout(queryTimer);
+    queryTimer = setTimeout(() => {
+      pokemon.card
 
-			pokemon.card
+        .where({
+          q: `( set.id:swsh* AND name:"*${query}*" )`,
+          select: `id,name,number,supertype,subtypes,rarity,images,types,set`,
+          orderBy: `-set.releaseDate,-number`,
+          pageSize: 36,
+        })
 
-				.where({ 
-					q: `( set.id:swsh* AND name:"*${query}*" )`,
-					select: `id,name,number,supertype,subtypes,rarity,images,types,set`,
-					orderBy: `-set.releaseDate,-number`,
-          pageSize: 36
-				})
+        .then((result) => {
+          const cards = result.data || [];
 
-				.then(result => {
-
-					const cards = result.data || [];
-					
           queryResult = [];
           isError = false;
 
-					let cardsMap = cards.slice(0, 36).map(card => {
-						if ( card.rarity === "Common" || card.rarity === "Uncommon" ) {
-							card.isReverse = !!Math.round(Math.random());
-						}
-						card.set = card.set.id;
-						return card;
-					});
+          let cardsMap = cards.slice(0, 36).map((card) => {
+            if (card.rarity === "Common" || card.rarity === "Uncommon") {
+              card.isReverse = !!Math.round(Math.random());
+            }
+            card.set = card.set.id;
+            return card;
+          });
 
-					queryResult = [...cardsMap];
-					loadingQuery = false;
+          queryResult = [...cardsMap];
+          loadingQuery = false;
+        })
 
-			  })
-        
-        .catch((a,b,c) => {
+        .catch((a, b, c) => {
           queryResult = [];
-					loadingQuery = false;
+          loadingQuery = false;
           isError = true;
         });
-
-        // @ts-ignore
-        gtag("event", "search", {
-          search_term: query
-        });
-
-
-		},666);
-	};
+    }, 666);
+  };
 
   $: usableQuery = query.length > 2;
-	$: query && loadQuery();
-
+  $: query && loadQuery();
 </script>
 
-
-
 <section class="search-area">
+  <input
+    type="search"
+    name="search"
+    id="search"
+    bind:value={query}
+    placeholder="eg: Morpeko or Marnie"
+  />
 
-  <input type="search" name="search" id="search" bind:value={query} placeholder="eg: Morpeko or Marnie" />
-
-  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.25" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="icon icon-tabler icon-tabler-search"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    stroke-width="1.25"
+    stroke="currentColor"
+    fill="none"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
     <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
     <path d="M21 21l-6 -6"></path>
- </svg>
-
+  </svg>
 </section>
 
 {#if !query}
@@ -113,12 +113,11 @@
   </CardList>
 {/if}
 
-{#if isError || ( usableQuery && !loadingQuery && !queryResult.length )}
-
+{#if isError || (usableQuery && !loadingQuery && !queryResult.length)}
   <h3>Error: No cards found with that name.</h3>
 
   <CardList>
-    <Card 
+    <Card
       id="basep-16"
       name="Computer Error"
       set="basep"
@@ -130,15 +129,10 @@
       isReverse={false}
     />
   </CardList>
-
 {/if}
 
-
-
 <style>
-
   .search-area {
-    
     font-size: 18px;
     display: grid;
     place-items: center start;
@@ -147,13 +141,12 @@
     padding: 5px;
     position: sticky;
     top: 10px;
-    border-radius: .66em;
+    border-radius: 0.66em;
     backdrop-filter: blur(5px);
     z-index: 999;
-
   }
 
-  @media screen and ( min-width: 900px ) {
+  @media screen and (min-width: 900px) {
     .search-area {
       margin: 120px 50px 0;
       font-size: 22px;
@@ -164,29 +157,29 @@
   }
 
   input {
-    
     font-family: Roboto;
     font-size: inherit;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: .5em;
-    padding: .5em 2em .5em .75em;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5em;
+    padding: 0.5em 2em 0.5em 0.75em;
     margin: 0;
-    background: hsla(220, 7%, 17%, .66);
+    background: hsla(220, 7%, 17%, 0.66);
     color: white;
     outline: none;
     transition: all 0.5s ease;
-    box-shadow: 0 5px 20px hsla(220, 7%, 20%, .75), 0 5px 10px hsla(220, 7%, 20%, .75);
+    box-shadow:
+      0 5px 20px hsla(220, 7%, 20%, 0.75),
+      0 5px 10px hsla(220, 7%, 20%, 0.75);
 
     grid-row: 1;
     grid-column: 1;
     width: 100%;
-
   }
 
   input:active,
   input:focus,
   input:hover {
-    background: hsla(220, 7%, 17%, .88);
+    background: hsla(220, 7%, 17%, 0.88);
   }
 
   input:active,
@@ -215,6 +208,4 @@
     font-weight: normal;
     margin-block: 10px;
   }
-  
-
 </style>
