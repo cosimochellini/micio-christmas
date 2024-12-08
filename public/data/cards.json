@@ -9,8 +9,8 @@
     "number": "160",
     "rarity": "Rare Rainbow",
     "images": {
-      "small": "https://images.pokemontcg.io/swsh12pt5/160.png",
-      "large": "http://localhost:5173/img/kitty.png"
+      "small": "https://micio-streghetta.netlify.app/img/kitty.png",
+      "large": "https://micio-streghetta.netlify.app/img/kitty.png"
     }
   }
 ]
