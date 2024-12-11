@@ -3,11 +3,11 @@
 
   import Card from "./lib/components/CardProxy.svelte";
 
+  const getCards = () => import("../cards.json");
+
   let showcase;
 
   let isLoading = true;
-
-  const getCards = () => import("../cards.json");
 
   const loadCards = async () =>
     getCards().then(({ default: cards }) => {
@@ -33,7 +33,7 @@
 
 <main>
   <header>
-    <h1 id="⚓-top">Micio Streghetta</h1>
+    <h1 id="⚓-top">Pulcino Micio Streghetta</h1>
 
     <section class="intro" id="⚓-intro">
       <p></p>
@@ -51,7 +51,6 @@
           supertype={showcase.supertype}
           subtypes={showcase.subtypes}
           rarity={showcase.rarity}
-          isReverse={showcase.isReverse}
           showcase={true}
           img={showcase.images.large}
         />
@@ -64,14 +63,5 @@
   </header>
 </main>
 
-<div class="back-to-top">
-  <a href="#⚓-top">Back to Top</a>
-</div>
-
 <style>
-  .back-to-top a {
-    color: inherit;
-    text-decoration: none;
-    z-index: 999;
-  }
 </style>
