@@ -23,7 +23,7 @@
   // context/environment props
   export let showcase = false;
 
-  const server = import.meta.env.VITE_CDN || "https://poke-holo.b-cdn.net";
+  const server = "https://poke-holo.b-cdn.net";
   /**
    * Shiny Vault Card (starts with sv)
    */
@@ -88,18 +88,8 @@
     return typeof v !== "undefined" && v !== null;
   }
 
-  function isArray(v) {
-    return typeof v !== "undefined" && Array.isArray(v);
-  }
-
   function cardImage() {
-    if (isDefined(img)) {
-      return img;
-    }
-    if (isDefined(set) && isDefined(number)) {
-      return `https://images.pokemontcg.io/${set.toLowerCase()}/${number}_hires.png`;
-    }
-    return "";
+    return img;
   }
 
   function foilMaskImage(prop, type = "masks") {
@@ -234,7 +224,7 @@
       }
     }
 
-    return `${server}/foils/${fSet}/${type}/upscaled/${fNumber}_foil_${etch}_${style}_2x.${ext}`;
+    return `${server}/foils/${fSet}/${type}/upscaled/${fNumber}_foil_${etch}_${style}_2x.${ext}` as const;
   }
 
   function foilImage() {
