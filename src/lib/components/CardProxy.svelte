@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { createEventDispatcher } from "svelte";
   import altArts from "./alternate-arts.json";
   import Card from "./Card.svelte";
   import promos from "./promos.json";
 
+  const dispatch = createEventDispatcher();
   // data / pokemon props
   export let id = undefined;
   export let name = undefined;
@@ -253,4 +255,4 @@
   };
 </script>
 
-<Card {...proxy} />
+<Card {...proxy} on:click={() => dispatch("click")} />

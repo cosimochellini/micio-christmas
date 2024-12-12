@@ -1,9 +1,10 @@
 <script>
-  import { onMount } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import { spring } from "svelte/motion";
   import { adjust, clamp, round } from "../helpers/Math.js";
   import { activeCard } from "../stores/activeCard.js";
   import { orientation, resetBaseOrientation } from "../stores/orientation.js";
+  const dispatch = createEventDispatcher();
 
   // data / pokemon props
   export let id = "";
@@ -383,6 +384,7 @@
 
 <svelte:window on:scroll={reposition} />
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
   class="card {types} / interactive /"
   class:active
@@ -397,6 +399,7 @@
   data-trainer-gallery={isTrainerGallery}
   style={dynamicStyles}
   bind:this={thisCard}
+  on:click={() => dispatch("click", { id })}
 >
   <div class="card__translater">
     <button
