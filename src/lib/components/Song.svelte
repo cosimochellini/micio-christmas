@@ -49,6 +49,7 @@
 
   // Add this function to handle auto-scrolling
   function scrollToActiveLyric() {
+    if (!isPlaying) return;
     if (!lyricsContainer) return;
 
     const activeLyric = lyricsContainer.querySelector("p.active");
@@ -61,8 +62,8 @@
   $: {
     currentTime;
     scrollToActiveLyric();
-    console.log(audio?.duration);
   }
+
   $: duration = (audio?.duration ?? 0) * 1000;
 
   $: progress = (currentTime / duration) * 100;
@@ -304,6 +305,8 @@
     pointer-events: none;
     width: 300px;
     height: 300px;
+    display: flex;
+    margin: auto;
   }
 
   .title {
