@@ -2,7 +2,8 @@
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { lyric } from "../data/lyric";
-
+  const SONG_URL = "/Micio Streghetta.mp3";
+  const COVER_URL = "/cover.webp";
   /**
    * @type {HTMLAudioElement}
    */
@@ -15,36 +16,54 @@
    */
   let intervalId;
 
-  // Create audio element and set up listeners
-  onMount(() => {
-    audio = new Audio("/Micio Streghetta.mp3");
+  // Add this function to set up media session
+  function setupMediaSession() {
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: "Micio Streghetta",
+        artist: "Cosetto",
+        album: "Micio Streghetta - Single",
+        artwork: [{ src: COVER_URL, sizes: "300x300", type: "image/webp" }],
+      });
 
-    audio.addEventListener("timeupdate", () => {
-      currentTime = audio.currentTime * 1000; // Convert to milliseconds
-    });
+      navigator.mediaSession.setActionHandler("play", () => (isPlaying = true));
 
-    audio.addEventListener("loadedmetadata", () => {
-      duration = audio.duration * 1000; // Convert to milliseconds
-    });
-
-    return () => {
-      audio.pause();
-      audio.removeEventListener("timeupdate", () => {});
-      audio.removeEventListener("loadedmetadata", () => {});
-    };
-  });
-
-  function togglePlay() {
-    if (!audio) return;
-
-    isPlaying = !isPlaying;
-    if (isPlaying) {
-      audio.play();
-    } else {
-      audio.pause();
+      navigator.mediaSession.setActionHandler(
+        "pause",
+        () => (isPlaying = false),
+      );
     }
   }
 
+  // Create audio element and set up listeners
+  onMount(() => {
+    audio = new Audio(SONG_URL);
+
+    const updateTime = () => {
+      currentTime = audio.currentTime * 1000; // Convert to milliseconds
+      if ("mediaSession" in navigator) {
+        navigator.mediaSession.playbackState = isPlaying ? "playing" : "paused";
+      }
+    };
+    const loadMetadata = () => {
+      duration = audio.duration * 1000; // Convert to milliseconds
+      setupMediaSession();
+    };
+
+    audio.addEventListener("timeupdate", updateTime);
+    audio.addEventListener("loadedmetadata", loadMetadata);
+
+    return () => {
+      audio.pause();
+      audio.removeEventListener("timeupdate", updateTime);
+      audio.removeEventListener("loadedmetadata", loadMetadata);
+      if (intervalId) clearInterval(intervalId);
+    };
+  });
+
+  /**
+   * @type {HTMLElement}
+   */
   let lyricsContainer;
 
   // Add this function to handle auto-scrolling
@@ -67,6 +86,11 @@
   $: duration = (audio?.duration ?? 0) * 1000;
 
   $: progress = (currentTime / duration) * 100;
+
+  $: {
+    isPlaying ? audio?.play() : audio?.pause();
+  }
+
   onMount(() => {
     return () => {
       if (intervalId) clearInterval(intervalId);
@@ -100,7 +124,7 @@
     <button
       class="control-button play-button"
       class:playing={isPlaying}
-      on:click={togglePlay}
+      on:click={() => (isPlaying = !isPlaying)}
     >
       {#if isPlaying}
         <svg viewBox="0 0 24 24">
@@ -120,9 +144,15 @@
         {#each paragraph as { text, time: { start, end }, type }}
           <p
             class:active={currentTime >= start && currentTime <= end}
+            class:passed={currentTime > end}
             class={type}
           >
-            {text}
+            {text
+              .replaceAll(/ama/gi, "❤️")
+              .replaceAll(/micio/gi, "🐱")
+              .replaceAll(/pulcino/gi, "🐤")
+              .replaceAll(/cosetto/gi, "🐤")
+              .replaceAll(/streghetta/gi, "🧙")}
           </p>
         {/each}
       </div>
@@ -277,9 +307,24 @@
   p {
     margin: 0.5rem 0;
     color: #b3b3b3;
-    transition: all 0.3s ease;
     font-size: 1.1rem;
     line-height: 1.5;
+    filter: blur(3px);
+    opacity: 0.7;
+    transform: scale(0.98);
+    transition:
+      filter 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.3s ease,
+      font-size 0.3s ease;
+  }
+
+  p.active,
+  p.passed {
+    filter: blur(0);
+    opacity: 1;
+    transform: scale(1);
   }
 
   p.active {
