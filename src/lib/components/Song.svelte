@@ -99,8 +99,12 @@
 </script>
 
 <div class="player" transition:fade>
-  <h1 class="title">Micio Streghetta</h1>
   <img src="/cover.webp" alt="Witch cat with chick" />
+
+  <div class="song-info">
+    <h1 class="title">Micio Streghetta</h1>
+    <h2 class="artist">Cosetto</h2>
+  </div>
 
   <div class="progress-bar">
     <div class="progress-background">
@@ -309,7 +313,7 @@
     color: #b3b3b3;
     font-size: 1.1rem;
     line-height: 1.5;
-    filter: blur(3px);
+    filter: blur(5px);
     opacity: 0.7;
     transform: scale(0.98);
     transition:
@@ -356,5 +360,22 @@
 
   .title {
     margin-bottom: 1rem;
+  }
+
+  .song-info {
+    margin: 1rem 0;
+  }
+
+  .title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .artist {
+    margin: 0.5rem 0 0 0;
+    font-size: 1rem;
+    color: #b3b3b3;
+    font-weight: 500;
   }
 </style>
