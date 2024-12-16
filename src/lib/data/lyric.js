@@ -39,24 +39,24 @@ export const lyric = [
     },
     {
       text: "Così gli sviluppatori piangon come cosetti",
-      time: { start: 30000, end: 33000 },
+      time: { start: 30000, end: 34500 },
       type: "verse",
     },
   ],
   [
     {
       text: "Miao miao micio strega, regina dei poteri",
-      time: { start: 33000, end: 38500 },
+      time: { start: 34500, end: 39000 },
       type: "chorus",
     },
     {
       text: "Tra cibi scaduti e sapor di magia",
-      time: { start: 38500, end: 42500 },
+      time: { start: 39000, end: 43000 },
       type: "chorus",
     },
     {
       text: "Un pulcino ti ama con lieve follia",
-      time: { start: 42500, end: 47000 },
+      time: { start: 43000, end: 47000 },
       type: "chorus",
     },
     {
@@ -83,78 +83,78 @@ export const lyric = [
     },
     {
       text: "Speriamo per lui che tu non lo voglia sgranocchiare",
-      time: { start: 67000, end: 72000 },
+      time: { start: 67000, end: 71500 },
       type: "verse",
     },
   ],
   [
     {
       text: "Miao micio miao strega, regina dei poteri",
-      time: { start: 72000, end: 78000 },
+      time: { start: 71500, end: 75500 },
       type: "chorus",
     },
     {
       text: "Tra cibi scaduti e sapor di magia",
-      time: { start: 78000, end: 84000 },
+      time: { start: 75500, end: 79000 },
       type: "chorus",
     },
     {
       text: "Un pulcino ti ama con lieve follia",
-      time: { start: 84000, end: 90000 },
+      time: { start: 79000, end: 83500 },
       type: "chorus",
     },
     {
       text: "Con te ogni giorno è pieno di assurdi misteri",
-      time: { start: 90000, end: 96000 },
+      time: { start: 83500, end: 88500 },
       type: "chorus",
     },
   ],
   [
     {
       text: "Ma dormi per ore, morbida su un cuscino",
-      time: { start: 120000, end: 126000 },
+      time: { start: 88500, end: 92500 },
       type: "bridge",
     },
     {
       text: "Ronfi serena, sognando un pulcino",
-      time: { start: 126000, end: 132000 },
+      time: { start: 92500, end: 96500 },
       type: "bridge",
     },
     {
       text: "La storia continua, tra serie tv e ronfate",
-      time: { start: 132000, end: 138000 },
+      time: { start: 96500, end: 101000 },
       type: "bridge",
     },
     {
       text: "Micietto e pulcino, creature incantate!",
-      time: { start: 138000, end: 144000 },
+      time: { start: 101000, end: 106000 },
       type: "bridge",
     },
     {
       text: "Miao micio MIAO!",
-      time: { start: 144000, end: 150000 },
+      time: { start: 106000, end: 113000 },
       type: "bridge",
     },
   ],
   [
     {
       text: "Miao miao micio strega, regina dei poteri",
-      time: { start: 150000, end: 156000 },
+      time: { start: 113000, end: 118000 },
       type: "chorus",
     },
     {
       text: "Tra cibi scaduti e sapor di magia",
-      time: { start: 156000, end: 162000 },
+      time: { start: 118000, end: 122500 },
       type: "chorus",
     },
     {
       text: "Un pulcino ti ama con lieve follia",
-      time: { start: 162000, end: 168000 },
+      time: { start: 122500, end: 126500 },
       type: "chorus",
     },
     {
       text: "Con te ogni giorno è pieno di assurdi misteri",
-      time: { start: 168000, end: 174000 },
+      time: { start: 126500, end: 131000 },
       type: "chorus",
     },
   ],

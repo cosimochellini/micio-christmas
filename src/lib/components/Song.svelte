@@ -98,79 +98,76 @@
   });
 </script>
 
-<div class="player" transition:fade>
-  <img src="/cover.webp" alt="Witch cat with chick" />
+<div class="player-container">
+  <div class="player player-font" transition:fade>
+    <img src="/cover.webp" alt="Witch cat with chick" />
 
-  <div class="song-info">
-    <h1 class="title">Micio Streghetta</h1>
-    <h2 class="artist">Cosetto</h2>
-  </div>
-
-  <div class="progress-bar">
-    <div class="progress-background">
-      <div class="progress-foreground" style="width: {progress}%" />
+    <div class="song-info">
+      <h1 class="title">Micio Streghetta</h1>
+      <h2 class="artist">Cosetto</h2>
     </div>
-    <span class="time current">
-      {Math.floor(currentTime / 60000)}:{Math.floor(
-        (currentTime % 60000) / 1000,
-      )
-        .toString()
-        .padStart(2, "0")}
-    </span>
-    <span class="time duration">
-      {Math.floor(duration / 60000)}:{Math.floor((duration % 60000) / 1000)
-        .toString()
-        .padStart(2, "0")}
-    </span>
-  </div>
 
-  <div class="controls">
-    <button
-      class="control-button play-button"
-      class:playing={isPlaying}
-      on:click={() => (isPlaying = !isPlaying)}
-    >
-      {#if isPlaying}
-        <svg viewBox="0 0 24 24">
-          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-        </svg>
-      {:else}
-        <svg viewBox="0 0 24 24">
-          <path d="M8 5v14l11-7z" />
-        </svg>
-      {/if}
-    </button>
-  </div>
-
-  <div class="lyrics-container" bind:this={lyricsContainer}>
-    {#each lyric as paragraph}
-      <div class="paragraph" class:active={isPlaying}>
-        {#each paragraph as { text, time: { start, end }, type }}
-          <p
-            class:active={currentTime >= start && currentTime <= end}
-            class:passed={currentTime > end}
-            class={type}
-          >
-            {text
-              .replaceAll(/ama/gi, "❤️")
-              .replaceAll(/micio/gi, "🐱")
-              .replaceAll(/pulcino/gi, "🐤")
-              .replaceAll(/cosetto/gi, "🐤")
-              .replaceAll(/streghetta/gi, "🧙")}
-          </p>
-        {/each}
+    <div class="progress-bar">
+      <div class="progress-background">
+        <div class="progress-foreground" style="width: {progress}%" />
       </div>
-    {/each}
+      <span class="time current">
+        {Math.floor(currentTime / 60000)}:{Math.floor(
+          (currentTime % 60000) / 1000,
+        )
+          .toString()
+          .padStart(2, "0")}
+      </span>
+      <span class="time duration">
+        {Math.floor(duration / 60000)}:{Math.floor((duration % 60000) / 1000)
+          .toString()
+          .padStart(2, "0")}
+      </span>
+    </div>
+
+    <div class="controls">
+      <button
+        class="control-button play-button"
+        class:playing={isPlaying}
+        on:click={() => (isPlaying = !isPlaying)}
+      >
+        {#if isPlaying}
+          <svg viewBox="0 0 24 24">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+          </svg>
+        {:else}
+          <svg viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        {/if}
+      </button>
+    </div>
+
+    <div class="lyrics-container" bind:this={lyricsContainer}>
+      {#each lyric as paragraph}
+        <div class="paragraph" class:active={isPlaying}>
+          {#each paragraph as { text, time: { start, end }, type }}
+            <p
+              class:active={currentTime >= start && currentTime <= end}
+              class:passed={currentTime > end}
+              class={type}
+            >
+              {text
+                .replaceAll(/ ama /gi, " ❤️ ")
+                .replaceAll(/micio/gi, "🐱")
+                .replaceAll(/pulcino/gi, "🐤")
+                .replaceAll(/cosetto/gi, "🐤")
+                .replaceAll(/streghetta/gi, "🧙")}
+            </p>
+          {/each}
+        </div>
+      {/each}
+    </div>
   </div>
 </div>
 
 <style>
-  .player {
-    margin: 4px;
-    background: linear-gradient(to bottom, #282828, #181818);
-    padding: 2rem;
-    border-radius: 8px;
-    color: #fff;
+  .player-font {
     font-family:
       "Inter",
       -apple-system,
@@ -182,6 +179,21 @@
       Cantarell,
       "Helvetica Neue",
       sans-serif;
+  }
+
+  .player-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .player {
+    margin: 8px;
+    max-width: 500px;
+    background: linear-gradient(to bottom, #282828, #181818);
+    padding: 2rem;
+    border-radius: 8px;
+    color: #fff;
   }
 
   .progress-bar {
@@ -295,11 +307,9 @@
     margin-top: 2rem;
     max-height: 60vh;
     overflow-y: auto;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
   }
 
-  /* Hide scrollbar for Chrome, Safari and Opera */
   .lyrics-container::-webkit-scrollbar {
     display: none;
   }
