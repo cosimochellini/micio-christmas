@@ -155,6 +155,7 @@
               {text
                 .replaceAll(/ ama /gi, " ❤️ ")
                 .replaceAll(/micio/gi, "🐱")
+                .replaceAll(/micietto/gi, "🐱")
                 .replaceAll(/pulcino/gi, "🐤")
                 .replaceAll(/cosetto/gi, "🐤")
                 .replaceAll(/streghetta/gi, "🧙")}
